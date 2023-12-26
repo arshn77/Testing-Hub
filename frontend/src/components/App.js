@@ -10,14 +10,28 @@ import {
   Navigate,
   useRoutes,
 } from "react-router-dom";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+    background: {
+      default: "#121212",
+    },
+  },
+});
 
 export default function App() {
   return (
-    <Router>
-      <Routes>
-        <Route exact path="/" element={<TestList />} />
-        <Route path="/test/:id" element={<TestPage />} />
-      </Routes>
-    </Router>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <Router>
+        <Routes>
+          <Route exact path="/" element={<TestList />} />
+          <Route path="/test/:id" element={<TestPage />} />
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 }
