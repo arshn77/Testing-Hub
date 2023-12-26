@@ -4,7 +4,7 @@ from .views import index
 
 urlpatterns = [
     path('', index),
-    path('test/<str:id>', index),
+    path('test/<int:id>', index),
 ]
 
 # try this path('<path:path>', index) as a catch all

@@ -44,14 +44,14 @@ class Command(BaseCommand):
                 'progress': random.choice(progress_states),
                 'start_date': timezone.now() - timedelta(days=random.randint(0, 30)),  # Random date in the last 30 days
                 'end_date': timezone.now() if random.random() < 0.5 else None,  # 50% chance of being None
-                'fail_date': None
             }
             for _ in range(100)  # Change this number to the number of objects you want to create
         ]
 
-        # Now, you can import this data in the Django shell
-
+        # Only failed tests get fail dates
         for obj in test_objects:
             if obj['progress'] == Test.FAILED:
                 obj['fail_date'] = timezone.now() - timedelta(days=random.randint(0, 30))
+            else:
+                obj['fail_date'] = None
             Test.objects.create(**obj)

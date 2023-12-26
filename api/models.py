@@ -14,6 +14,8 @@ class Test(models.Model):
     # TODO: date_ended never has null
     # date_started is always today
 
+    # Might be able to add ID field to make url parameters 1 to 1 with tester names
+
     # Tester name
     name = models.CharField(max_length=100, blank=False, null=False) # May be a better way to validate
     program = models.CharField(max_length=100, blank=False, null=False)

@@ -12,12 +12,14 @@ import {
   InputAdornment,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { progressColors } from "../utils/progressColors";
+import { useNavigate } from "react-router-dom";
 
 export default function TestList() {
   const [rows, setRows] = useState([]);
-
   const [search, setSearch] = useState("");
+
+  const navigate = useNavigate();
 
   const [view, setView] = useState(
     JSON.parse(localStorage.getItem("view")) || "manager"
@@ -51,7 +53,10 @@ export default function TestList() {
   useEffect(() => {
     fetch("/api/test-list/")
       .then((response) => response.json())
-      .then((data) => setRows(data))
+      .then((data) => {
+        setRows(data);
+        // console.log(data);
+      })
       .catch((error) => console.log("Error"));
   }, []);
 
@@ -109,6 +114,10 @@ export default function TestList() {
     })
   );
 
+  const handleRowClick = (params) => {
+    navigate(`/test/${params.row.id}`);
+  };
+
   if (rows === null) {
     <Box
       style={{ height: "100vh" }}
@@ -153,6 +162,7 @@ export default function TestList() {
         <DataGrid
           rows={filteredRows}
           columns={getColumns()}
+          onRowClick={handleRowClick}
           // Setting initial state from local storage
           sortModel={sortModel}
           onSortModelChange={(model) => setSortModel(model)}
@@ -205,14 +215,14 @@ function getColumns() {
       headerName: "Progress",
       width: 150,
       renderCell: (params) => {
-        let color;
-        if (params.value === "In Progress") {
-          color = "#F8E95F";
-        } else if (params.value === "Completed") {
-          color = "#66CAEC";
-        } else if (params.value === "Failed") {
-          color = "#FF6347";
-        }
+        let color = progressColors[params.value];
+        // if (params.value === "In Progress") {
+        //   color = "#F8E95F";
+        // } else if (params.value === "Completed") {
+        //   color = "#66CAEC";
+        // } else if (params.value === "Failed") {
+        //   color = "#FF6347";
+        // }
         return <span style={{ color: color }}>{params.value}</span>;
       },
     },
@@ -247,7 +257,9 @@ function getColumns() {
     {
       field: "fail_date",
       headerName: "Fail Date",
-      width: 150,
+      width: 170,
+      renderCell: (params) =>
+        params.value ? new Date(params.value).toLocaleString() : "",
     },
   ];
 }
