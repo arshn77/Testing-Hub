@@ -6,4 +6,4 @@ class TestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Test
-        fields = ('id', 'type', 'progress', 'date_started', 'date_ended')
+        fields = ('id', 'name', 'program', 'script', 'progress', 'code_line', 'engineer', 'technician', 'start_date', 'end_date', 'fail_date')
