@@ -11,4 +11,5 @@ On the top right you can change the view of the table between Engineer, Manager,
 ## Tech Stack
 
 **Backend:** The backend is built with Django and uses sqlite3 as it's database. It can easily be migrated to other SQL databases.
+
 **Frontend:** The frontend is built with Javascript and React
